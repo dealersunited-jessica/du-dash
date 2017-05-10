@@ -25,7 +25,7 @@ if ($conn->connect_error) {
 		$Displaymake = '';
 			while($row = $makes->fetch_assoc()) {
 				$make = $row["make"];
-				$Displaymake .= "<label class='form-radio-label radio-inline'><input type='radio' value ='". $make ."' id='". $make ."' name='make'>" . $make. "</option><br /></label>";
+				$Displaymake .= "<label class='form-radio-label radio-inline'><input type='radio' value ='". $make ."' id='". $make ."' name='make[]'>" . $make. "</option><br /></label>";
 			}
 
 		//$models = $conn->query("SELECT model, make FROM `oems` WHERE make = '$make' ORDER BY `model` DESC");

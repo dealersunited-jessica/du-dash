@@ -70,19 +70,12 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 	
 	  
 	  //Get some variables
-	 // if (count($_POST['model']) > 0)
-//		  			{
-//		  				foreach ($_POST['model'] as $row)
-//    						{
-//								echo $_POST["model"];
-//							}
-//	  				}
 	  $account_values = array(
-			"oems" => array(
-		  			"models" => array(
-		  				$_POST["model"]
-		  		)
-		  ),
+		 //"oems" => array(
+//		  		"models" => array(
+//		  			$_POST["model"]
+//		  		)
+//		  ),
 		  	"days" => array(
 		  			"lengths" => array(
 		  					"1" => "15",
@@ -94,27 +87,26 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 		  )
 	  	);
 	  	 //var_dump($_POST["model"]);
+	  //print_r($_POST["model"]);
 		foreach($account_values as $key => $value) {
-			if( is_array($value)){
+				
 				$myarray = $account_values["days"];
-				$myarray2 = $account_values["oems"];
-				//var_dump($myarray2);
 					$keys = array_keys($myarray);
-					
 					for($i = 0; $i < count($myarray); $i++) {
-							foreach($myarray[$keys[$i]] as $key => $value) {
+							foreach($account_values["days"][$keys[$i]] as $key => $value) {
 								$day = $value;
 							}
-					$keys = array_keys($myarray2);
-					for($i = 0; $i < count($myarray2); $i++) {
-							foreach($myarray2[$keys[$i]] as $key => $value) {
-								$model = $value;
-							}
+					
+			foreach($_POST["model"] as $models) {
+		 		 $models = $model;
+	  		
+			}
 							
 	  			$custom_audience = new CustomAudience(null, 'act_'.$_POST["account"].'');
 				$custom_audience->setData(array(
 				  CustomAudienceFields::PIXEL_ID => $_POST["pixel"],
-				  CustomAudienceFields::NAME => 'Retargeting - '.$_POST["make"].' - '.$model.' '.$_POST["make"].' ('.$day.' Days)',
+				CustomAudienceFields::NAME => 'Retargeting - '.$_POST["make"].' - '.$model.' '
+					.$_POST["make"].' ('.$day.' Days)',
 				  CustomAudienceFields::SUBTYPE => CustomAudienceSubtypes::WEBSITE,
 				  CustomAudienceFields::RULE => array(
 						'url' => array('i_contains' => $model, 'regex_match' => $model),
@@ -122,11 +114,12 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 				  CustomAudienceFields::PREFILL => true,
 				  CustomAudienceFields::RETENTION_DAYS => $day,
 		));
-		$custom_audience->create();
+		//$custom_audience->create();
 		}
-						}
-					}
+						
 		}
+					
+	
 				
 	  
 	  //show output
