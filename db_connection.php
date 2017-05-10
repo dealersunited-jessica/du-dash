@@ -40,7 +40,7 @@ $result = mysqli_query($conn,"SELECT model, make FROM `oems` WHERE model = '$mak
 $Displaymodel = '';
 while($row = mysqli_fetch_array($result)) {
 	$model = $row["model"];
-	$Displaymodel .= "<div class='form-check form-check-inline'><label class='form-check-label'><input type='check' value ='". $model ."' id='make'>" . $model. "</option><br /></label></div>";
+	$Displaymodel .= "<option value ='". $model ."' id='model' name='".$model."'>" . $model. "</option>";
 }
 
 
