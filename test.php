@@ -71,11 +71,11 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 	  
 	  //Get some variables
 	  $account_values = array(
-		 //"oems" => array(
-//		  		"models" => array(
-//		  			$_POST["model"]
-//		  		)
-//		  ),
+		 "oems" => array(
+		  		"models" => array(
+		  			"model" => $_POST["model"]
+		  		)
+		  ),
 		  	"days" => array(
 		  			"lengths" => array(
 		  					"1" => "15",
@@ -86,7 +86,7 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 		  					"6" => "180")
 		  )
 	  	);
-	  	 //var_dump($_POST["model"]);
+	  	 //var_dump($account_values["oems"]["models"]["model"]);
 	  //print_r($_POST["model"]);
 		foreach($account_values as $key => $value) {
 				
@@ -97,10 +97,12 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 								$day = $value;
 							}
 					
-			foreach($_POST["model"] as $models) {
-		 		 $models = $model;
-	  		
-			}
+				$myarray2 = $account_values["oems"]["models"]["model"];
+					$keys = array_keys($myarray2);
+					for($i = 0; $i < count($myarray2); $i++) {
+							foreach($myarray2[$keys[$i]] as $key => $value) {
+								$model = $value;
+							}
 							
 	  			$custom_audience = new CustomAudience(null, 'act_'.$_POST["account"].'');
 				$custom_audience->setData(array(
@@ -116,8 +118,12 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 		));
 		//$custom_audience->create();
 		}
-						
+					}
 		}
+	  
+		
+		
+						
 					
 	
 				
@@ -129,13 +135,13 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 	  	
 	  	//print_r($custom_audience->getData(array(CustomAudienceFields::NAME => '')));
 	  //echo "<br/>";
-	  //print_r($account);
+	  print_r($array);
 			
 	  foreach($array as $key => $value) 
 		 if (!is_array($value) && $key == 'pixel_id') {
 			 $pixel = $array['pixel_id'];
 			 $name = $array['name'];
-		 	echo "Account ID - " . $array['id']."<br />";
+		 	echo "Account ID - " . $_POST["account"]."<br />";
 			echo "Name - " . $array['name']."<br />";
 			echo "Pixel ID - " . $array['pixel_id']."<br />";
 	  	}
