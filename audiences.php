@@ -30,14 +30,16 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <form role="form" method="post" action="test.php">
+                                    <form id="form" name="form" role="form" method="post" action="test.php">
                                         <div class="form-group">
                                             <label>Account Number</label>
-                                            <input class="form-control" placeholder="Enter number" name="account" type="text">
+                                            <input id="account" class="form-control" placeholder="Enter number" name="account" type="text" required>
+                                            <div id="error"></div>
                                         </div>
                                         <div class="form-group">
                                              <label>Pixel</label>
-                                            <input class="form-control" placeholder="Enter number" name="pixel" type="text">
+                                            <input class="form-control" placeholder="Enter number" name="pixel" type="text" id="pixel" required>
+                                            <div id="pixelerror"></div>
                                         </div>
                                         <div class="form-group">
                                             <div class="form-group">
@@ -51,14 +53,14 @@
 											</div>
                                         </div>
                                          <div class="form-group">
-                                          <div class="checkbox-multiple" id="models" required>
+                                          <div class="radio" id="model" required>
 												<?php
 											  		echo $Displaymodel
 												;?>
                                           </div>
                                         </div>
-                                        <button type="submit" class="btn btn-default">Submit Button</button>
-                                        <button type="reset" class="btn btn-default">Reset Button</button>
+                                        <button type="submit" class="btn btn-default">Create Audiences</button>
+                                        <button type="reset" class="btn btn-default">Reset All</button>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
@@ -92,7 +94,7 @@ $(document).ready(function(){
         var inputVal = $(this).val(); 
         if(inputVal.length){
             $.get("backend-search.php", {term: inputVal}).done(function(data){
-				$("#models").html(data);
+				$("#model").html(data);
             });
         } else{
             resultDropdown.empty();
@@ -102,7 +104,7 @@ $(document).ready(function(){
     // Set search input value on click of result item
     $(document).on("click", "#models option", function(){
         $(this).parents("#makes").find('#makes input[type=radio]').val($(this).text());
-        $(this).parent("#models").empty();
+        $(this).parent("#model").empty();
     });
 });
 </script>

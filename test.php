@@ -51,31 +51,15 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 
 	  // The Api object is now available through singleton
 	  $api = Api::instance();
-	  
-
- 
-	 // //Create Audience
-//		$custom_audience = new CustomAudience(null, 'act_1403601723047786');
-//		$custom_audience->setData(array(
-//		  CustomAudienceFields::PIXEL_ID => '1356988127674006',
-//		  CustomAudienceFields::NAME => 'DU New Website Custom Audience',
-//		  CustomAudienceFields::SUBTYPE => CustomAudienceSubtypes::WEBSITE,
-//		  CustomAudienceFields::RETENTION_DAYS => 15,
-//		  CustomAudienceFields::RULE => array('url' => array('i_contains' => 'mustang')),
-//		  CustomAudienceFields::PREFILL => true,
-//		)); 
-	  
-	  
-	  //Create Audience
 	
 	  
 	  //Get some variables
 	  $account_values = array(
-		 "oems" => array(
-		  		"models" => array(
-		  			"model" => $_POST["model"]
-		  		)
-		  ),
+		// "oems" => array(
+//		  		"models" => array(
+//		  			"model" => $_POST["model"]
+//		  		)
+//		  ),
 		  	"days" => array(
 		  			"lengths" => array(
 		  					"1" => "15",
@@ -87,7 +71,7 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 		  )
 	  	);
 	  	 //var_dump($account_values["oems"]["models"]["model"]);
-	  //print_r($_POST["model"]);
+	  print_r($_POST["model"]);
 		foreach($account_values as $key => $value) {
 				
 				$myarray = $account_values["days"];
@@ -95,39 +79,43 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 					for($i = 0; $i < count($myarray); $i++) {
 							foreach($account_values["days"][$keys[$i]] as $key => $value) {
 								$day = $value;
-							}
-					
-				$myarray2 = $account_values["oems"]["models"]["model"];
-					$keys = array_keys($myarray2);
-					for($i = 0; $i < count($myarray2); $i++) {
-							foreach($myarray2[$keys[$i]] as $key => $value) {
-								$model = $value;
-							}
+							
+						
+				//$myarray2 = $account_values["oems"]["models"]["model"];
+//					$keys = array_keys($myarray2);
+//					for($i = 0; $i < count($myarray2); $i++) {
+//							foreach($myarray2[$keys[$i]] as $key => $value) {
+//								$model = $value;
+//							}
+//					}
 							
 	  			$custom_audience = new CustomAudience(null, 'act_'.$_POST["account"].'');
 				$custom_audience->setData(array(
 				  CustomAudienceFields::PIXEL_ID => $_POST["pixel"],
-				CustomAudienceFields::NAME => 'Retargeting - '.$_POST["make"].' - '.$model.' '
+				CustomAudienceFields::NAME => 'Retargeting - '.$_POST["make"].' - '.$_POST["model"].' '
 					.$_POST["make"].' ('.$day.' Days)',
 				  CustomAudienceFields::SUBTYPE => CustomAudienceSubtypes::WEBSITE,
 				  CustomAudienceFields::RULE => array(
-						'url' => array('i_contains' => $model, 'regex_match' => $model),
+						'url' => array('i_contains' => $_POST["model"], 'regex_match' => $_POST["model"]),
 					),
 				  CustomAudienceFields::PREFILL => true,
 				  CustomAudienceFields::RETENTION_DAYS => $day,
 		));
 		//$custom_audience->create();
+		
 		}
 					}
-		}
+					}
+	
+		
 	  
 		
 		
 						
-					
+		echo "<br />";			
 	
 				
-	  
+	   echo "<h4>Custom Audience Created</h4>";
 	  //show output
 	  $account = new AdAccount('act_'.$_POST["account"].'');
 	  $audiences = $account->getCustomAudiences();
@@ -135,7 +123,7 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 	  	
 	  	//print_r($custom_audience->getData(array(CustomAudienceFields::NAME => '')));
 	  //echo "<br/>";
-	  print_r($array);
+	  //print_r($array);
 			
 	  foreach($array as $key => $value) 
 		 if (!is_array($value) && $key == 'pixel_id') {
@@ -160,6 +148,29 @@ $access_token = 'EAAT67Tb3EAMBAN92uFMU194vLC9nrjiYe3vjMyVp0t5objeJd0GyRpZC0s4ZAl
 	  else {
 		  
 	  }
+	  
+	  echo "<br />";
+	  
+	  //Display all accounts
+	  echo "<h4>All Audiences</h4>";
+	  $account = new AdAccount('act_'.$_POST["account"].'');
+$audiences = $account->getCustomAudiences();
+$audiencesObjects = $audiences->getObjects();
+
+foreach($audiencesObjects as $audienceObj) {
+    $data = $audienceObj->read(['name', 'rule'])->getData();
+		echo "Account ID - " . $_POST["account"]."<br />";
+			echo "Name - " . $data['name']."<br />";
+			$myarray = $array['rule'];
+				$keys = array_keys($myarray);
+				for($i = 0; $i < count($myarray); $i++) {
+					echo $keys[$i] . " -<br /><ul>";
+					foreach($myarray[$keys[$i]] as $key => $value) {
+						echo "<li>" . $key . " : " . $value . "</li>";
+					}
+					echo "</ul>";
+				}
+}
 	  
 	  //The code to use the audience in an AdSet was:
 $targeting = array(

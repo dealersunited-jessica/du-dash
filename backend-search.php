@@ -18,7 +18,7 @@ $term = mysqli_real_escape_string($link, $_REQUEST['term']);
 				$i = 0;
     			foreach ($result as $row)
     			{
-        		echo "<label class='checkbox-inline form-check-label'><input type='checkbox' value ='". $row['model'] ."' id='". $row['model'] ."' name='model[".$i++."][" . $row['model'] . "]'>" . $row['model']. "</option><br /></label>";
+        		echo "<label class='form-radio-label radio-inline'><input type='radio' value ='". $row['model'] ."' id='". $row['model'] ."' name='model'>" . $row['model']. "</option><br /></label>";
     			}
 
                 
